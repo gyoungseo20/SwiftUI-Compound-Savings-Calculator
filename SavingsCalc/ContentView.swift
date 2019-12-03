@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
     
+    //VARIABLES
     @State private var initialDeposit = ""
     @State private var monthlyAddition = ""
     @State private var apr = ""
@@ -26,6 +27,7 @@ struct ContentView: View {
         return Double(recursiveInterest(total: initial, years: time, monthly: monthly, apr: aprValue))
     }
     
+    //GLOBAL FUNCTIONS
     func recursiveInterest(total: Double, years: Int, monthly: Double, apr: Double) -> Double {
         var newTotal = total
         let interest = monthly * 12
@@ -38,8 +40,16 @@ struct ContentView: View {
             return recursiveInterest(total: newTotal, years: years-1, monthly: monthly, apr: apr)
         }
     }
-
     
+    //STYLING
+    struct PrimaryLabel: ViewModifier {
+        func body(content: Content) -> some View {
+            content
+                .foregroundColor(Color.green)
+        }
+    }
+
+    //CONTENT BODY
     var body: some View {
         NavigationView {
             Form {
@@ -53,7 +63,7 @@ struct ContentView: View {
                     .keyboardType(.decimalPad)
                 }
                 
-                Section(header: Text("Annual Percentage Rate")) {
+                Section(header: Text("Annual Percentage Rate (in decimal)")) {
                     TextField("Amount", text: $apr)
                     .keyboardType(.decimalPad)
                 }
@@ -72,13 +82,6 @@ struct ContentView: View {
                 
                 }.navigationBarTitle("Savings Calculator").modifier(PrimaryLabel())
         }
-    }
-}
-
-struct PrimaryLabel: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .foregroundColor(Color.green)
     }
 }
 
